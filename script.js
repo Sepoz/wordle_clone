@@ -2,7 +2,17 @@
 
 const grid = document.getElementById("grid");
 
-const wordList = ["patio", "darts", "paino", "horse"];
+let wordList = [
+	"patio",
+	"darts",
+	"piano",
+	"horse",
+	"hello",
+	"water",
+	"pizza",
+	"sushi",
+	"crabs",
+];
 
 let randomIndex = Math.floor(Math.random() * wordList.length);
 let secret = wordList[randomIndex];
@@ -16,7 +26,7 @@ updateGrid();
 window.addEventListener("keydown", handleKeydown);
 
 function handleKeydown(event) {
-	let letter = e.key.toLowerCase();
+	let letter = event.key.toLowerCase();
 
 	if (letter === "enter") {
 		if (currentAttempt.length < 5) {
@@ -46,7 +56,7 @@ function buildGrid() {
 		for (let j = 0; j < 5; j++) {
 			let cell = document.createElement("div");
 			cell.className = "cell";
-			cell.textContent = "A";
+			cell.textContent = "";
 
 			row.appendChild(cell);
 		}
@@ -66,7 +76,7 @@ function updateGrid() {
 
 function drawAttempt(row, attempt, isCurrent) {
 	for (let i = 0; i < 5; i++) {
-		let cell = row.children(i);
+		let cell = row.children[i];
 
 		if (attempt[i] !== undefined) {
 			cell.textContent = attempt[i];
@@ -76,9 +86,9 @@ function drawAttempt(row, attempt, isCurrent) {
 			cell.innerHTML = "<div style='opacity: 0'>X</div>";
 		}
 		if (isCurrent) {
-			cell.style.backgorundColor = "#111";
+			cell.style.backgroundColor = "#111";
 		} else {
-			cell.style.backgorundColor = getBgColor(attempt, i);
+			cell.style.backgroundColor = getBgColor(attempt, i);
 		}
 	}
 }
@@ -87,9 +97,10 @@ function getBgColor(attempt, i) {
 	let correctLetter = secret[i];
 	let attemptLetter = attempt[i];
 
-	if (attemptLetter !== undefined || secret.indexOf(attemptLetter) === -1) {
+	if (attemptLetter === undefined || secret.indexOf(attemptLetter) === -1) {
 		return "#212121";
 	}
+
 	if (correctLetter === attemptLetter) {
 		return "#538d4e";
 	}
